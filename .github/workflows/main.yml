@@ -42,10 +42,10 @@ jobs:
       # -----------------------------
       # Setup gcloud
       # -----------------------------
-      - name: Setup gcloud
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ env.PROJECT_ID }}
+      #- name: Setup gcloud
+      #  uses: google-github-actions/setup-gcloud@v2
+      #  with:
+      #    project_id: ${{ env.PROJECT_ID }}
 
       # -----------------------------
       # Configure Docker for Artifact Registry

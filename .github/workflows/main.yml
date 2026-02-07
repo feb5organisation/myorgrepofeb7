@@ -1,4 +1,4 @@
-name: Build & Deploy to GKE GCP3
+name: Build & Deploy to GKE GCP4
 
 on:
   push:

@@ -10,7 +10,7 @@ env:
   REGION: asia-south1
   CLUSTER_NAME: cluster-1
   CLUSTER_LOCATION: asia-south1-b	
-  REPOSITORY: asia-south1-docker.pkg.dev/my-projectfeb1/cloud-run-source-deploy
+  REPOSITORY: cloud-run-source-deploy
   IMAGE_NAME: my-app
 
 jobs:

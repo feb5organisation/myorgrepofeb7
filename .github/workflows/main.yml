@@ -6,11 +6,11 @@ on:
       - main
 
 env:
-  PROJECT_ID: my-gcp-project
+  PROJECT_ID: my-projectfeb1
   REGION: asia-south1
-  CLUSTER_NAME: my-gke-cluster
-  CLUSTER_LOCATION: asia-south1
-  REPOSITORY: my-docker-repo
+  CLUSTER_NAME: cluster-1
+  CLUSTER_LOCATION: asia-south1-b	
+  REPOSITORY: asia-south1-docker.pkg.dev/my-projectfeb1/cloud-run-source-deploy
   IMAGE_NAME: my-app
 
 jobs:
@@ -34,8 +34,8 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: projects/123456789/locations/global/workloadIdentityPools/github-pool/providers/github-provider
-          service_account: github-deployer@my-gcp-project.iam.gserviceaccount.com
+          workload_identity_provider: principal://iam.googleapis.com/projects/704009009226/locations/global/workloadIdentityPools/github/providers/github-provider
+          service_account: githubaction@my-projectfeb1.iam.gserviceaccount.com
 
       # -----------------------------
       # Setup gcloud
@@ -76,5 +76,5 @@ jobs:
       # -----------------------------
       - name: Deploy to GKE
         run: |
-          sed -i "s|IMAGE_PLACEHOLDER|$IMAGE_URI|g" k8s/deployment.yaml
-          kubectl apply -f k8s/
+          sed -i "s|IMAGE_PLACEHOLDER|$IMAGE_URI|g" deployment.yaml
+          kubectl apply -f deployment.yaml

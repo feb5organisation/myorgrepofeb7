@@ -45,12 +45,6 @@ jobs:
       - name: Configure Docker
         run: |
           gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
-
-      # -----------------------------
-      # Build & Push Docker Image
-      # -----------------------------
-      - name: Build and Push Image
-        run: |
           IMAGE_URI="$REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:${{ github.sha }}"
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI

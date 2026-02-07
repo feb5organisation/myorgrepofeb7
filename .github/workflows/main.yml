@@ -39,6 +39,11 @@ jobs:
           workload_identity_provider: 'projects/704009009226/locations/global/workloadIdentityPools/github/providers/github-provider'
           service_account: 'githubaction@my-projectfeb1.iam.gserviceaccount.com'
 
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
       # -----------------------------
       # Configure Docker for Artifact Registry
       # -----------------------------

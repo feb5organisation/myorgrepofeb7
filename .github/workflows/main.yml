@@ -1,4 +1,4 @@
-name: Build & Deploy to GKE GCP
+name: Build & Deploy to GKE GCP1
 
 on:
   push:
@@ -34,6 +34,7 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
+          create_credentials_file: 'true'
           workload_identity_provider: projects/704009009226/locations/global/workloadIdentityPools/github/providers/github-provider
           service_account: githubaction@my-projectfeb1.iam.gserviceaccount.com
 

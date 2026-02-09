@@ -1,9 +1,22 @@
 name: Build & Deploy to GKE1
 
-on:
-  push:
-    branches:
-      - main
+#on:
+ # push:
+   # branches:
+      #- main
+
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Docker image tag (e.g. v1.0.0, commit SHA, latest)"
+        required: true
+        default: "manual"
+
+      deployment_name:
+        description: "Kubernetes deployment name"
+        required: true
+        default: "my-app"
+
 
 env:
   PROJECT_ID: my-projectfeb1
@@ -12,6 +25,8 @@ env:
   CLUSTER_LOCATION: asia-south1-b	
   REPOSITORY: cloud-run-source-deploy
   IMAGE_NAME: my-app
+  IMAGE_TAG: ${{ github.event.inputs.image_tag || github.sha }} 
+  DEPLOYMENT_NAME: ${{ github.event.inputs.deployment_name }}
 
 jobs:
   build-deploy:
@@ -50,7 +65,7 @@ jobs:
       - name: Configure Docker
         run: |
           gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
-          IMAGE_URI="$REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:${{ github.sha }}"
+          IMAGE_URI="$REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG"
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
@@ -70,4 +85,5 @@ jobs:
       - name: Deploy to GKE
         run: |
           sed -i "s|IMAGE_PLACEHOLDER|$IMAGE_URI|g" deployment.yaml
+          sed -i "s|DEPLOYMENT_NAME_PLACEHOLDER|$DEPLOYMENT_NAME|g" deployment.yaml
           kubectl apply -f deployment.yaml
